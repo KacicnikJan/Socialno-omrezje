@@ -1,0 +1,293 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800" MinHeight="500" MinWidth="700">
+
+    <Window.Resources>
+        <Style x:Key="Stopnja_prijateljstva" TargetType="StackPanel">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName= sto, Path= Text}" Value="DoberPrijatelj">
+                    <Setter Property="Background" Value="LightGreen"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName= sto, Path= Text}" Value="Znanec">
+                    <Setter Property="Background" Value="LightBlue"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName= sto, Path= Text}" Value="zNeznanec">
+                    <Setter Property="Background" Value="LightPink"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#FFE9EBEE">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*">
+
+            </ColumnDefinition>
+            <ColumnDefinition Width="6*">
+
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <Rectangle Grid.Row="0" Grid.ColumnSpan="2" Fill="#FF4267B2" />
+        <Rectangle Grid.Row="2" Grid.ColumnSpan="2" Fill="White" Margin="20,0,20,70" />
+        <Label x:Name="SocialnoLB" Grid.ColumnSpan="2"  Foreground="White" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Socialno Omrežje
+            <Label.RenderTransform>
+                <TranslateTransform x:Name="premikanje" Y="0"  X="0"/>
+            </Label.RenderTransform>
+            <Label.Triggers>
+                <EventTrigger RoutedEvent="Label.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever" Storyboard.TargetProperty="X" AutoReverse="True" Storyboard.TargetName="premikanje">
+                                <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0" />
+                                <LinearDoubleKeyFrame Value="20" KeyTime="0:0:2" />
+                                <LinearDoubleKeyFrame Value="0" KeyTime="0:0:4" />
+                                <LinearDoubleKeyFrame Value="-20" KeyTime="0:0:6" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Label.Triggers>
+        </Label>
+
+        <Image Source ="{Binding Naslovna}" Stretch="Fill" Name="Naslovna"  Margin="20,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Grid.Row="1" />
+
+        <Label Name="lbIme" Content="{Binding PolnoIme}"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Foreground="White" FontWeight="Bold" FontSize="15
+               "/>
+
+        <Border BorderThickness="1" Margin="60,40,20,85" Grid.RowSpan="2" BorderBrush="#FFD9D9D9" Grid.Row="1">
+            <Border BorderThickness="3" BorderBrush="White">
+                <Image Source ="{Binding Prikazna}" Stretch="Fill"  Name="Prikazna" OpacityMask="White"   />
+            </Border>
+        </Border>
+
+
+
+        <Menu Background="#FF4267B2" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <MenuItem>
+                <MenuItem.Header>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="15" Margin="0,1,0,0">Meni</TextBlock>
+                </MenuItem.Header>
+                <MenuItem.Icon>
+                    <Image Source="Resources\facebook.jpg" Stretch="Fill"/>
+                </MenuItem.Icon>
+                <MenuItem Header="_Dodaj"  FontWeight="Bold" Click="MenuItem_Click" Background="Transparent" Foreground="#FF3B5998" >
+                    <MenuItem.Icon>
+                        <Image Source="Resources\dodaj.png" Stretch="Fill"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Izvozi" Foreground="#FF3B5998" Name="Izvozi" Click="izvozi_Click" FontWeight="Bold" IsTextSearchEnabled="True">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\izvozi.png" Stretch="Fill"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Uvozi" Foreground="#FF3B5998" Name="Uvozi" Click="Uvozi_Click" FontWeight="Bold" IsTextSearchEnabled="True">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\uvozi.png" Stretch="Fill"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_Izhod"  Foreground="#FF3B5998" Name="izhod" Click="izhod_Click" FontWeight="Bold" IsTextSearchEnabled="True">
+                    <MenuItem.Icon>
+                        <Image Source="Resources\izhod.png" Stretch="Fill"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Background="White" Margin="0,0,20,10">
+            <TabItem Background="White" Foreground="#FF3B5998" FontWeight="Bold">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" >
+                        <Image  Source="Resources/objave.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" />
+                        <TextBlock VerticalAlignment="Center" Foreground="#FF3B5998" >Časovnica</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <ScrollViewer>
+                    <DockPanel Name="zid_objav" LastChildFill="False"  ScrollViewer.CanContentScroll="True">
+                        <TextBlock>Objave</TextBlock>
+                    </DockPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Background="White" Foreground="#FF365899" FontWeight="Bold" Height="26" VerticalAlignment="Top">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" >
+                        <Image  Source="Resources/vec_o.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" />
+                        <TextBlock VerticalAlignment="Center" Foreground="#FF3B5998" >Več 0</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*">
+                        </ColumnDefinition>
+                        <ColumnDefinition Width="1*">
+                        </ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Label FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Foreground="#FF365899" >Osnovni podatki</Label>
+                    <Button x:Name="shrani" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnSpremembaPodatkov" >
+                        <StackPanel Orientation="Horizontal" >
+                            <Image  Source="Resources/spremembe.png" Margin="5"/>
+                            <TextBlock VerticalAlignment="Center" Foreground="#FF3B5998" >Shrani spremembe</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                    <Label FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="#FF365899" >Ime:</Label>
+                    <TextBox Name="tbIme" Text="{Binding ImeOsebe}"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="#FFFCFDFF" MinWidth="50" Background="#FFD9D9D9"></TextBox>
+
+                    <Label FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Foreground="#FF365899" >Priimek:</Label>
+                    <TextBox Name="tbPriimek"  Grid.Row="2" Text="{Binding PriimekOsebe}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="#FFFCFDFF" MinWidth="50" Background="#FFD9D9D9"></TextBox>
+
+                    <Label FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3" Foreground="#FF365899" >Datum rojstva:</Label>
+                    <TextBox Name="tbDatum" Text="{Binding DatumRojstva}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="#FFFCFDFF" MinWidth="50" Background="#FFD9D9D9"></TextBox>
+
+                    <Label  FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Foreground="#FF365899" >Šola:</Label>
+                    <TextBox Name="tbSola" Text="{Binding Sola}" TextAlignment="Center" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="White" MinWidth="50" Background="#FFD9D9D9"></TextBox>
+
+                    <Label FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5" Foreground="#FF365899" >Spol:</Label>
+                    <TextBox Name="tbSpol" Text="{Binding Spol}"  TextAlignment="Center" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="White" MinWidth="50" Background="#FFD9D9D9"></TextBox>
+
+                    <Label FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6" Foreground="#FF365899" >Delovno mesto:</Label>
+                    <TextBox Name="tbDelo" Text="{Binding Delo}"  TextAlignment="Center" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="White" MinWidth="50" Background="#FFD9D9D9"></TextBox>
+                </Grid>
+            </TabItem>
+
+            <TabItem  Foreground="#FF365899" FontWeight="Bold">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" >
+                        <Image  Source="Resources/prijatelji.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" />
+                        <TextBlock VerticalAlignment="Center" Foreground="#FF3B5998" >Prijatelji</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid Margin="10" Name="prijatelji">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*">
+                        </ColumnDefinition>
+                        <ColumnDefinition Width="1*">
+                        </ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <ComboBox Margin="10,8" SelectedIndex="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FF3B5998">
+                        <ComboBoxItem Visibility="Collapsed">
+                            <StackPanel Orientation="Horizontal" >
+                                <Image  Source="Resources/sortiranje.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" />
+                                <TextBlock VerticalAlignment="Center" Foreground="#FF3B5998" >Sortiranje</TextBlock>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem HorizontalContentAlignment="Center" Selected="ABC_Selected">
+                            <StackPanel Orientation="Horizontal" >
+                                <Image  Source="Resources/sort_az.png" Margin="0,0,12,0" Width="20"/>
+                                <TextBlock VerticalAlignment="Center" Foreground="#FF3B5998" Margin="0,0,8,0" >Abeceda</TextBlock>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem HorizontalContentAlignment="Center" Selected="Stopnja_selected">
+                            <StackPanel Orientation="Horizontal" >
+                                <Image  Source="Resources/sort_stop.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="20" />
+                                <TextBlock VerticalAlignment="Center" Foreground="#FF3B5998" >Stopnja prijateljstva</TextBlock>
+                            </StackPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+
+                    <Button Grid.Column="1" Margin="0,5" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <StackPanel Orientation="Horizontal" >
+                            <Image  Source="Resources/dodaj_pr.png" Margin="0,0,12,0"/>
+                            <TextBlock VerticalAlignment="Center" Foreground="#FF3B5998" Margin="0,0,8,0" >Dodaj prijatelja</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Column="1" Grid.Row="1" Margin="0,5" Click="Button_Click_1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="Resources/odstrani_pr.png" Margin="0,0,5,0"/>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#FF3B5998" >Odstrani Prijatelja</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+
+                    <Label x:Name="isciLB" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="1" FontWeight="Bold" Foreground="#FF365899" Margin="0,0,0,20" >Iskanje:
+                        <Label.Triggers>
+                            <EventTrigger RoutedEvent="Label.MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard BeginTime="00:00:00" RepeatBehavior="0:0:6" Storyboard.TargetName="isciLB" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
+                                            <ColorAnimation From="#FF365899" To="IndianRed" AutoReverse="True" Duration="0:0:2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <TextBox HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Bottom" Name="Iskanje" TextChanged="Iskanje_TextChanged"/>
+
+
+                    <ListBox Name="seznam_prijateljev" Grid.Row="2" Grid.Column="0" Grid.RowSpan="3" ItemsSource="{Binding VsiPrijatelji}" Margin="0,10,0,0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Name="polje_prijateljev" Style="{StaticResource Stopnja_prijateljstva}" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Ime, StringFormat='{}{0}\ '}" FontStyle="Italic" />
+                                    <TextBlock Text="{Binding Priimek, StringFormat='{}{0}\, '}" FontFamily="Segoe UI Black" />
+                                    <TextBlock Text="{Binding Lokacija}" TextDecorations="Underline"/>
+                                    <TextBlock Name="sto" Visibility="Collapsed" Text="{Binding Stopnja}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Name="tiFotografije" Foreground="#FF365899" FontWeight="Bold">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" >
+                        <Image  Source="Resources/fotografije.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" />
+                        <TextBlock VerticalAlignment="Center" Foreground="#FF3B5998" >Fotografije</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <ListView  Name="lsbSlike" ItemsSource="{Binding VseObjave}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Slika}"  Stretch="Fill" MaxWidth="600"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+
+</Window>
